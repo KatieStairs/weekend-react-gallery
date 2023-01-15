@@ -1,4 +1,3 @@
-import galleryItem from './GalleryList'
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -10,7 +9,7 @@ function GalleryItem({ galleryItem }){
     const toggleFlipped = () => {
         setIsFlipped(!isFlipped)
         console.log('in toggleFlipped')
-    }
+    } 
 
     const toggleAndCountLiked = () => {
         setIsLiked(!isLiked);
@@ -19,15 +18,17 @@ function GalleryItem({ galleryItem }){
         updateLiked();
     }
 
-    const updateLiked = () => {
+    const updateLiked = (id, isLikedCount) => {
         axios({
             method: 'POST',
-            url: '/gallery',
+            url: `/gallery/like/${id}`,
             data: {
+            id: id,
             likes: {isLikedCount}
             }
         }).then((response) => {
-            console.log('put res', response)
+            props.getGallery()
+            console.log(response)
         }).catch((error) => {
             console.log('updateLiked error:', error);
         })
@@ -37,7 +38,7 @@ function GalleryItem({ galleryItem }){
     if (isFlipped === false) {
     return (
         <>
-            <img src={ galleryItem.path} key={galleryItem.id} onClick={toggleFlipped}/>
+            <img src={galleryItem.path} key={galleryItem.id} onClick={toggleFlipped}/>
             <button onClick={toggleAndCountLiked}>Love it!</button>
             <div>{isLikedCount} people love this!</div>
         </>
@@ -46,6 +47,8 @@ function GalleryItem({ galleryItem }){
     return (
         <>
         {galleryItem.description}
+        <button onClick={toggleAndCountLiked}>Love it!</button>
+            <div>{isLikedCount} people love this!</div>
         </>
     )
 }
