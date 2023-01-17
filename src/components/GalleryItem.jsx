@@ -47,7 +47,7 @@ function GalleryItem({ galleryItem }){
     return (
         <>
         {galleryItem.description}
-        <button onClick={toggleAndCountLiked}>Love it!</button>
+        {/* <button onClick={toggleAndCountLiked(galleryItem.id, galleryItem.likes)}>Love it!</button> */}
             <div>{isLikedCount} people love this!</div>
         </>
     )
